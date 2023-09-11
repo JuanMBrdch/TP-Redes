@@ -824,9 +824,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247241293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76015002e46f366498b4b80470b14ca0, type: 3}
+  m_Script: {fileID: 11500000, guid: be937e48341939c42906a3c8ab3a35d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hostButton: {fileID: 1358258400}
+  serverButton: {fileID: 1396106766}
+  clientButton: {fileID: 580921710}
+  inputField: {fileID: 782513057}
+  maxPlayers: 4
 --- !u!4 &1247241295
 Transform:
   m_ObjectHideFlags: 0
@@ -1038,7 +1043,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: b80e4f5f59feb6443868567eb30f5bf5, type: 2}
+      - {fileID: 11400000, guid: f54dcf07829dd6a4792ee60ad093d2eb, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
