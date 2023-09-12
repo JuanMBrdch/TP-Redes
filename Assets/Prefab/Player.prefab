@@ -247,13 +247,49 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 198058741573771423, guid: 0dd3a454ae06f664b91499d43ec68d72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4413890568935003920}
   m_SourcePrefab: {fileID: 100100000, guid: 0dd3a454ae06f664b91499d43ec68d72, type: 3}
 --- !u!95 &1438348590778369754 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6516426606169833462, guid: 0dd3a454ae06f664b91499d43ec68d72, type: 3}
   m_PrefabInstance: {fileID: 5303258032731289900}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5415385542273866163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 198058741573771423, guid: 0dd3a454ae06f664b91499d43ec68d72, type: 3}
+  m_PrefabInstance: {fileID: 5303258032731289900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4413890568935003920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5415385542273866163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd709b36be4aba45821361ea31f3eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1977268977
+    DestinationState: 1141626005
+    TransitionDuration: 0.25
+    TriggerNameHash: -1304917071
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563131572
+    DestinationState: 1141626005
+    TransitionDuration: 0.25
+    TriggerNameHash: -1304917071
+    TransitionIndex: 1
+  m_Animator: {fileID: 1438348590778369754}
 --- !u!4 &9042112793147599776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3811449054680617612, guid: 0dd3a454ae06f664b91499d43ec68d72, type: 3}
