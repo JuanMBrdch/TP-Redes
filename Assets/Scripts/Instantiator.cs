@@ -10,16 +10,25 @@ public class Instantiator : NetworkBehaviour
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
     [SerializeField] private Transform zone4;
-    
+    public List<Transform> spawnAreas = new List<Transform>();
+    private List<Transform> availableSpawnAreas = new List<Transform>();
     public void Start()
     {
+        spawnAreas = new List<Transform>{ zone1, zone2, zone3, zone4 };
+        availableSpawnAreas.AddRange(spawnAreas);
         ulong id = NetworkManager.Singleton.LocalClientId;
         RequestSpawnPlayerServerRpc(id);
     }
     [ServerRpc(RequireOwnership = false)]
-    void RequestSpawnPlayerServerRpc(ulong id)
+    private void RequestSpawnPlayerServerRpc(ulong id)
     {
-        var obj = Instantiate<NetworkObject>(playerPrefab);
-        obj.SpawnWithOwnership(id);
+        if (availableSpawnAreas.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableSpawnAreas.Count);
+            Transform spawnPoint = availableSpawnAreas[randomIndex];
+            var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
+            obj.SpawnWithOwnership(id);
+            availableSpawnAreas.RemoveAt(randomIndex);
+        }
     }
 }
