@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7d86f16-3b80-45eb-a6de-b6d66430bab2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TP-Redes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TP-Redes/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Level.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Level.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Instantiator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Instantiator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +96,7 @@
       <updated>1694281745630</updated>
       <workItem from="1694281749274" duration="2854000" />
       <workItem from="1694381294486" duration="1150000" />
+      <workItem from="1694472534404" duration="3663000" />
     </task>
     <servers />
   </component>
