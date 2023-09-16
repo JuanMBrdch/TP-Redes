@@ -8,10 +8,12 @@ public class PlayerAnims : NetworkBehaviour
     public Animator anim;
     PlayerModel _playerModel;
     Rigidbody _rb;
+    PlayerController _controller;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _playerModel = GetComponent<PlayerModel>();
+        _controller = GetComponent<PlayerController>();
     }
     private void Start()
     {
