@@ -8,7 +8,8 @@ public class Bullet : NetworkBehaviour
     public float speed = 10f;
     private Vector3 direction;
     private Rigidbody _rb;
-
+    private PlayerModel _model;
+    private PlayerController playerController;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -25,6 +26,17 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       // if(Bullet. = PlayerController.PlayerID)
+        if (IsOwner && other.CompareTag("Player"))
+        {
+            // Obtiene el PlayerController del jugador colisionado
+            PlayerController targetPlayer = other.GetComponent<PlayerController>();
+
+            if (targetPlayer != null)
+            {
+                // Llama a un método remoto para restarle vida al jugador
+                targetPlayer.TakeDamageServerRpc(10); // Puedes ajustar la cantidad de daño aquí
+            }
+        }
+
     }
 }
