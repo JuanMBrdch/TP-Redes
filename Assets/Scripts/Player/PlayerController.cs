@@ -22,7 +22,6 @@ public class PlayerController : NetworkBehaviour
         {
             _model = GetComponent<PlayerModel>();
             health = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
         }
         else
         {
@@ -30,7 +29,6 @@ public class PlayerController : NetworkBehaviour
         }
 
     }
-
     
     private void Update()
     {
@@ -44,7 +42,6 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             RequestSpawnBulletServerRpc(playerID);
-
         }
     }
 
@@ -54,18 +51,16 @@ public class PlayerController : NetworkBehaviour
        
         GameObject bullet = Instantiate(bulletPrefab, shootTransform.position, shootTransform.rotation);
         bullet.GetComponent<NetworkObject>().SpawnWithOwnership(playerID);
-
-
-        // Destruir la bala después de un tiempo (por ejemplo, 5 segundos)
+        
         Destroy(bullet, 5f);
     }
 
     [ServerRpc (RequireOwnership = false)]
     public void TakeDamageServerRpc(int damageAmount)
     {
-        health.Value -= damageAmount; // Resta la cantidad de daño a la vida
+        health.Value -= damageAmount; 
 
-        // Puedes agregar lógica adicional aquí, como comprobar si el jugador murió
+        
         if(health.Value <= 0)
         {
             Destroy(this.gameObject);

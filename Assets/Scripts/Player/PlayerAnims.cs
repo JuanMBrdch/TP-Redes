@@ -23,10 +23,21 @@ public class PlayerAnims : NetworkBehaviour
         }
       
     }
-    void Update()
+
+    private void Update()
     {
         if (!IsOwner) return;
         anim.SetFloat("Vel", _rb.velocity.magnitude);
+        if (_rb.velocity.magnitude > 0)
+        {
+            LookDir(_rb.velocity);
+        }
+    }
+
+    void LookDir(Vector3 dir)
+    {
+        dir.y = 0;
+        transform.forward = dir.normalized;
     }
     
 }
