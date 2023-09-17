@@ -14,14 +14,7 @@ public class Bullet : NetworkBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        if (IsOwner)
-        {
-            _model = GetComponent<PlayerModel>();
-        }
-        else
-        {
-            this.enabled = false;
-        }
+        
     }
  
 
