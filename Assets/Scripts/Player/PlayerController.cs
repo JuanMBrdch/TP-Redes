@@ -10,6 +10,7 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField]
     private GameObject bulletPrefab;
+    public NetworkVariable<int> health;
 
     [SerializeField] private Transform shootTransform;
     [SerializeField] private float movementSpeed = 2f;
@@ -20,6 +21,8 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             _model = GetComponent<PlayerModel>();
+            health = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
         }
         else
         {
@@ -49,13 +52,24 @@ public class PlayerController : NetworkBehaviour
     public void RequestSpawnBulletServerRpc(ulong playerID)
     {
        
-        GameObject bullet = Instantiate(bulletPrefab, shootTransform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, shootTransform.position, shootTransform.rotation);
         bullet.GetComponent<NetworkObject>().SpawnWithOwnership(playerID);
 
 
-        
-
         // Destruir la bala después de un tiempo (por ejemplo, 5 segundos)
         Destroy(bullet, 5f);
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    public void TakeDamageServerRpc(int damageAmount)
+    {
+        health.Value -= damageAmount; // Resta la cantidad de daño a la vida
+
+        // Puedes agregar lógica adicional aquí, como comprobar si el jugador murió
+        if(health.Value <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+      
     }
 }
