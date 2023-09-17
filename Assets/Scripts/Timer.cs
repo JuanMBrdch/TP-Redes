@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class Timer : NetworkBehaviour
 {
-    public Text timerText; 
+    public TMP_Text timerText; 
     private PlayerController _controller;
     public void Start()
     {
@@ -26,7 +26,7 @@ public class Timer : NetworkBehaviour
         if (IsOwner && _controller.gamePlayingTimer != null)
         {
             // Actualiza el texto de la UI con el valor del temporizador
-            timerText.text = "Timer: " + _controller.gamePlayingTimer.Value.ToString("F2"); 
+            timerText.SetText("Timer: " + _controller.gamePlayingTimer.Value.ToString("F2"));
         }
     }
 }
