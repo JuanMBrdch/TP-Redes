@@ -7,10 +7,11 @@ using Unity.Netcode.Components;
 public class PlayerController : NetworkBehaviour
 {
     private PlayerModel _model;
-
+    private LevelManager _level;
     [SerializeField]
     private GameObject bulletPrefab;
     public NetworkVariable<int> health;
+    public NetworkVariable<bool> players;
 
     [SerializeField] private Transform shootTransform;
     [SerializeField] private float movementSpeed = 2f;
@@ -23,16 +24,23 @@ public class PlayerController : NetworkBehaviour
     public float localTimer = 0f;
     private float resetUploadTimer = 0f;
 
+    public NetworkVariable<bool> isReadyToStart;
+
     private void Start()
     {
-        if (IsOwner)
+        if (IsOwner )
         {
+            _level = GetComponent<LevelManager>();
+
             _model = GetComponent<PlayerModel>();
             health = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+            players = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
             gamePlayingTimer = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-            if (IsServer)
+            isReadyToStart = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+            if (IsServer )
             {
-                StartGamePlayingTimer(); // Inicia el temporizador en el servidor
+                StartGamePlayingTimer(); 
             }
         }
         else
@@ -46,34 +54,48 @@ public class PlayerController : NetworkBehaviour
     {
         var playerID = _model.OwnerClientId;
 
+
         if (!IsOwner) return;
-        var dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        _model.Move(dir);
-      
+        Debug.Log("Jugadores " + isReadyToStart.Value);
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            RequestSpawnBulletServerRpc(playerID);
+        if (isReadyToStart.Value == true) {
+            var dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            _model.Move(dir);
+
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                RequestSpawnBulletServerRpc(playerID);
+            }
+
+            if (isTimerRunning)
+            {
+                localTimer += Time.deltaTime;
+                resetUploadTimer += Time.deltaTime;
+            }
+
+            if (resetUploadTimer >= 3f)
+            {
+                UploadLocalTimerServerRpc();
+                resetUploadTimer = 0f;
+            }
         }
 
-        if (isTimerRunning)
-        {
-            localTimer += Time.deltaTime;
-            resetUploadTimer += Time.deltaTime;
-        }
+        if (!IsServer) return;
 
-        if (resetUploadTimer >= 3f)
+        if(NetworkManager.Singleton.ConnectedClients.Count == 4)
         {
-            UploadLocalTimerServerRpc();
-            resetUploadTimer = 0f;
-        }
+           
+                isReadyToStart.Value = true;
+            SetPlayersServerRpc(true);
 
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void UploadLocalTimerServerRpc()
     {
-        gamePlayingTimer.Value = localTimer; // Actualiza el valor del temporizador en la NetworkVariable
+        gamePlayingTimer.Value = localTimer; 
     }
     [ServerRpc (RequireOwnership = false)]
     public void RequestSpawnBulletServerRpc(ulong playerID)
@@ -84,7 +106,13 @@ public class PlayerController : NetworkBehaviour
         
         Destroy(bullet, 5f);
     }
+    [ServerRpc(RequireOwnership = false)]
+   public void SetPlayersServerRpc(bool value)
+    {
 
+        isReadyToStart.Value = value;
+
+    }
     [ServerRpc (RequireOwnership = false)]
     public void TakeDamageServerRpc(int damageAmount)
     {

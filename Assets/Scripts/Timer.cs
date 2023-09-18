@@ -16,17 +16,13 @@ public class Timer : NetworkBehaviour
             _controller = GetComponent<PlayerController>();
         }
     }
-    public void Initialize(NetworkVariable<float> timer)
-    {
-        _controller.gamePlayingTimer = timer;
-    }
+ 
 
     private void Update()
     {
-        if (IsOwner && _controller.gamePlayingTimer != null)
+        if (IsOwner)
         {
-            // Actualiza el texto de la UI con el valor del temporizador
-            timerText.SetText("Timer: " + _controller.gamePlayingTimer.Value.ToString("F2"));
+            timerText.SetText("Timer: " + _controller.localTimer.ToString());
         }
     }
 }
