@@ -13,27 +13,13 @@ public class PlayerController : NetworkBehaviour
     public NetworkVariable<int> health;
 
     [SerializeField] private Transform shootTransform;
-    [SerializeField] private float movementSpeed = 2f;
-    [SerializeField] private float rotationSpeed = 500f;
     private Animator anim;
-
-    public NetworkVariable<float> gamePlayingTimer; 
-
-    private bool isTimerRunning = false;
-    public float localTimer = 0f;
-    private float resetUploadTimer = 0f;
-
     private void Start()
     {
         if (IsOwner)
         {
             _model = GetComponent<PlayerModel>();
             health = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-            gamePlayingTimer = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-            if (IsServer)
-            {
-                StartGamePlayingTimer(); // Inicia el temporizador en el servidor
-            }
         }
         else
         {
@@ -47,42 +33,27 @@ public class PlayerController : NetworkBehaviour
         var playerID = _model.OwnerClientId;
 
         if (!IsOwner) return;
-        var dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         _model.Move(dir);
-      
+        if (dir != Vector3.zero)
+        {
+            //lookDir(dir);
+        }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             RequestSpawnBulletServerRpc(playerID);
         }
-
-        if (isTimerRunning)
-        {
-            localTimer += Time.deltaTime;
-            resetUploadTimer += Time.deltaTime;
-        }
-
-        if (resetUploadTimer >= 3f)
-        {
-            UploadLocalTimerServerRpc();
-            resetUploadTimer = 0f;
-        }
-
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void UploadLocalTimerServerRpc()
-    {
-        gamePlayingTimer.Value = localTimer; // Actualiza el valor del temporizador en la NetworkVariable
-    }
+    
     [ServerRpc (RequireOwnership = false)]
     public void RequestSpawnBulletServerRpc(ulong playerID)
     {
-       
         GameObject bullet = Instantiate(bulletPrefab, shootTransform.position, shootTransform.rotation);
-        bullet.GetComponent<NetworkObject>().SpawnWithOwnership(playerID);
-        
-        Destroy(bullet, 5f);
+        var netObj = bullet.GetComponent<NetworkObject>();
+        netObj.SpawnWithOwnership(playerID);
+        netObj.Despawn(true);
     }
 
     [ServerRpc (RequireOwnership = false)]
@@ -96,9 +67,5 @@ public class PlayerController : NetworkBehaviour
             Destroy(this.gameObject);
         }
       
-    }
-    private void StartGamePlayingTimer()
-    {
-        isTimerRunning = true;
     }
 }

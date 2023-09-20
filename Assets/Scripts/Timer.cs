@@ -7,26 +7,35 @@ using TMPro;
 
 public class Timer : NetworkBehaviour
 {
-    public TMP_Text timerText; 
-    private PlayerController _controller;
+    public TMP_Text timerText;
+    private float _timer;
+    private float _syncTimer;
     public void Start()
     {
         if(IsOwner)
         {
-            _controller = GetComponent<PlayerController>();
+            
         }
     }
-    public void Initialize(NetworkVariable<float> timer)
-    {
-        _controller.gamePlayingTimer = timer;
-    }
-
     private void Update()
     {
-        if (IsOwner && _controller.gamePlayingTimer != null)
+        _timer += Time.deltaTime;
+        if (IsServer)
         {
-            // Actualiza el texto de la UI con el valor del temporizador
-            timerText.SetText("Timer: " + _controller.gamePlayingTimer.Value.ToString("F2"));
+            _syncTimer += Time.deltaTime;
+            if (_syncTimer > 3)
+            {
+                _syncTimer = 0;
+                TimerUpdateClientRPC(_timer);
+            }
         }
     }
+
+    [ClientRpc]
+    private void TimerUpdateClientRPC(float time)
+    {
+        _timer = time;
+    }
+
+    
 }

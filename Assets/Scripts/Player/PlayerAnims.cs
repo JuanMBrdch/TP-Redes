@@ -34,7 +34,7 @@ public class PlayerAnims : NetworkBehaviour
         }
     }
 
-    void LookDir(Vector3 dir)
+    private void LookDir(Vector3 dir)
     {
         dir.y = 0;
         transform.forward = dir.normalized;

@@ -10,33 +10,40 @@ public class Bullet : NetworkBehaviour
     private Rigidbody _rb;
     private PlayerModel _model;
     private PlayerController playerController;
+    private bool _isDestroyed;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-
-        
     }
- 
 
-    void Update()
+
+    private void Update()
     {
-        _rb.velocity = _rb.transform.forward * speed;
-        
+        if (IsOwner)
+        {
+            _rb.velocity = _rb.transform.forward * speed;
+            //Timer _isDestroyed == false;
+            _isDestroyed = true;
+            //RequestDestroyServerRPC(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (IsOwner && other.CompareTag("Player"))
         {
-            // Obtiene el PlayerController del jugador colisionado
-            PlayerController targetPlayer = other.GetComponent<PlayerController>();
+            PlayerModel targetPlayer = other.GetComponent<PlayerModel>();
 
             if (targetPlayer != null)
             {
-                // Llama a un método remoto para restarle vida al jugador
-                targetPlayer.TakeDamageServerRpc(10); // Puedes ajustar la cantidad de daño aquí
+                targetPlayer.RequestTakeDamage(10); 
             }
         }
+    }
 
+    [ServerRpc]
+    private void RequestDestroyServerRPC()
+    {
+        //Despawn(true);
     }
 }

@@ -22,12 +22,35 @@ public class PlayerModel : NetworkBehaviour
     
     public void Move(Vector3 dir)
     {
-        
         dir *= speed;
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
     }
-    
+
+    public void RequestTakeDamage(int damage)
+    {
+        if (IsOwner)
+        {
+            TakeDamage(damage);
+        }
+        else
+        {
+            RequestTakeDamageServerRPC(damage);
+        }
+    }
+
+    [ServerRpc]
+    private void RequestTakeDamageServerRPC(int damage)
+    {
+        //p.Send.TargetIds = new ulong[] { OwnerClientId };
+        //RequestTakeDamageClientRPC(damage,p);
+    }
+
+    [ClientRpc]
+    private void RequestTakeDamageClientRPC(int damage, ClientRpcParams p)
+    {
+        TakeDamage(damage);
+    }
     private void TakeDamage(int damage)
     {
         currentHealth -= damage;
