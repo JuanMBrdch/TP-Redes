@@ -37,5 +37,5 @@ public class Timer : NetworkBehaviour
         _timer = time;
     }
 
-    
+    public float Timer_ => _timer;
 }
