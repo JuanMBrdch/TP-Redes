@@ -12,12 +12,12 @@ public class PlayerModel : NetworkBehaviour
     
     public int maxHealth;
     public int currentHealth;
-
     
     private void Awake()
     {
         currentHealth = maxHealth;
         _rb = GetComponent<Rigidbody>();
+
     }
     
     public void Move(Vector3 dir)
@@ -42,7 +42,7 @@ public class PlayerModel : NetworkBehaviour
     [ServerRpc]
     private void RequestTakeDamageServerRPC(int damage)
     {
-        //p.Send.TargetIds = new ulong[] { OwnerClientId };
+       // p.Send.TargetIds = new ulong[] { OwnerClientId };
         //RequestTakeDamageClientRPC(damage,p);
     }
 

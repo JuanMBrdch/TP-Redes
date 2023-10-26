@@ -71,6 +71,13 @@ public class NetworkController : MonoBehaviour
     void OnClientConnectedCallback(ulong id)
     {
         print("Client connected " + id);
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if(NetworkManager.Singleton.ConnectedClients.Count >= 3)
+            {
+
+            }
+        }
     }
     void OnClientDisconnectedCallback(ulong id)
     {

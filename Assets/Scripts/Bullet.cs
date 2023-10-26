@@ -24,7 +24,7 @@ public class Bullet : NetworkBehaviour
             _rb.velocity = _rb.transform.forward * speed;
             //Timer _isDestroyed == false;
             _isDestroyed = true;
-            //RequestDestroyServerRPC(true);
+            RequestDestroyServerRPC();
         }
     }
 
