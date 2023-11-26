@@ -26,16 +26,26 @@ public class Bullet : NetworkBehaviour
         {
             _rb.velocity = _rb.transform.forward * speed;
             currentLifeTime += Time.deltaTime;
+            if (currentLifeTime >= LifeTime && !_isDestroyed)
+            {
                 _isDestroyed = true;
-            RequestDestroyServerRPC();
+                RequestDestroyServerRPC();
+            }
         }
-     
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestDestroyServerRPC()
+    {
+        var netObj = GetComponent<NetworkObject>();
+        netObj.Despawn(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (IsOwner && other.CompareTag("Player"))
         {
+            Debug.Log("golpea");
             PlayerModel targetPlayer = other.GetComponent<PlayerModel>();
 
             if (targetPlayer != null)
@@ -44,16 +54,5 @@ public class Bullet : NetworkBehaviour
                 RequestDestroyServerRPC();
             }
         }
-    }
-
-    [ServerRpc]
-    private void RequestDestroyServerRPC()
-    {
-        if(currentLifeTime >= LifeTime) {
-            var netObj = this.GetComponent<NetworkObject>();
-
-            netObj.Despawn(true);
-        }
-        
     }
 }
