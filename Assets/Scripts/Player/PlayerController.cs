@@ -43,6 +43,7 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             RequestSpawnBulletServerRpc(playerID);
+            Debug.Log("Dispara");
         }
     }
 
@@ -53,7 +54,7 @@ public class PlayerController : NetworkBehaviour
         GameObject bullet = Instantiate(bulletPrefab, shootTransform.position, shootTransform.rotation);
         var netObj = bullet.GetComponent<NetworkObject>();
         netObj.SpawnWithOwnership(playerID);
-        netObj.Despawn(true);
+       // netObj.Despawn(true);
     }
 
     [ServerRpc (RequireOwnership = false)]

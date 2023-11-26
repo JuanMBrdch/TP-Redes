@@ -11,6 +11,9 @@ public class Bullet : NetworkBehaviour
     private PlayerModel _model;
     private PlayerController playerController;
     private bool _isDestroyed;
+    private float LifeTime = 5f;
+    private float currentLifeTime;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -22,10 +25,11 @@ public class Bullet : NetworkBehaviour
         if (IsOwner)
         {
             _rb.velocity = _rb.transform.forward * speed;
-            //Timer _isDestroyed == false;
-            _isDestroyed = true;
+            currentLifeTime += Time.deltaTime;
+                _isDestroyed = true;
             RequestDestroyServerRPC();
         }
+     
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,7 +40,8 @@ public class Bullet : NetworkBehaviour
 
             if (targetPlayer != null)
             {
-                targetPlayer.RequestTakeDamage(10); 
+                targetPlayer.RequestTakeDamage(10);
+                RequestDestroyServerRPC();
             }
         }
     }
@@ -44,6 +49,11 @@ public class Bullet : NetworkBehaviour
     [ServerRpc]
     private void RequestDestroyServerRPC()
     {
-        //Despawn(true);
+        if(currentLifeTime >= LifeTime) {
+            var netObj = this.GetComponent<NetworkObject>();
+
+            netObj.Despawn(true);
+        }
+        
     }
 }

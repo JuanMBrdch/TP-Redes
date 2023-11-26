@@ -65,7 +65,8 @@ public class NetworkController : MonoBehaviour
         print("Server preEntrega");
         if (NetworkManager.Singleton.IsServer)
         {
-            LoadScene();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+
         }
     }
     void OnClientConnectedCallback(ulong id)
@@ -73,8 +74,9 @@ public class NetworkController : MonoBehaviour
         print("Client connected " + id);
         if (NetworkManager.Singleton.IsServer)
         {
-            if(NetworkManager.Singleton.ConnectedClients.Count >= 3)
+            if(NetworkManager.Singleton.ConnectedClients.Count >= 4)
             {
+                LoadScene();
 
             }
         }
