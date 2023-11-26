@@ -26,6 +26,7 @@ public class Bullet : NetworkBehaviour
         {
             _rb.velocity = _rb.transform.forward * speed;
             currentLifeTime += Time.deltaTime;
+
             if (currentLifeTime >= LifeTime && !_isDestroyed)
             {
                 _isDestroyed = true;
@@ -43,9 +44,8 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsOwner && other.CompareTag("Player"))
+        if (IsOwner && other.CompareTag("Player") || other.CompareTag("MovingWall"))
         {
-            Debug.Log("golpea");
             PlayerModel targetPlayer = other.GetComponent<PlayerModel>();
 
             if (targetPlayer != null)
@@ -53,6 +53,12 @@ public class Bullet : NetworkBehaviour
                 targetPlayer.RequestTakeDamage(10);
                 RequestDestroyServerRPC();
             }
+            else
+            {
+                RequestDestroyServerRPC();
+
+            }
+
         }
     }
 }

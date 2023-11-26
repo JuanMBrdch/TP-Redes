@@ -39,13 +39,18 @@ public class PlayerModel : NetworkBehaviour
 
         }
     }
-
     [ServerRpc(RequireOwnership = false)]
     private void RequestTakeDamageServerRPC(int damage)
     {
         TakeDamage(damage);
         p.Send.TargetClientIds = new ulong[] { OwnerClientId };
         RequestTakeDamageClientRPC(damage, p);
+        if (currentHealth <= 0)
+        {
+            var netObj = GetComponent<NetworkObject>();
+
+            netObj.Despawn(true);
+        }
     }
 
     [ClientRpc]

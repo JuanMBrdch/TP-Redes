@@ -61,12 +61,6 @@ public class PlayerController : NetworkBehaviour
     public void TakeDamageServerRpc(int damageAmount)
     {
         health.Value -= damageAmount; 
-
-        
-        if(health.Value <= 0)
-        {
-            Destroy(this.gameObject);
-        }
-      
+     
     }
 }
