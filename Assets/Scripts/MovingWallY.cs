@@ -8,13 +8,8 @@ public class MovingWallY : NetworkBehaviour
     public float moveDistance = 1.0f;
     public float moveSpeed = 1.0f;
 
-    private Vector3 initialPosition;
     private bool isMoving = false;
 
-    private void Start()
-    {
-        initialPosition = transform.position;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +19,7 @@ public class MovingWallY : NetworkBehaviour
             if (!isMoving)
             {
                 RequestMoveServerRPC();
+
             }
         }
     }

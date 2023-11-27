@@ -13,6 +13,7 @@ public class PlayerModel : NetworkBehaviour
     public int maxHealth;
     public int currentHealth;
     private ClientRpcParams p;
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -50,6 +51,7 @@ public class PlayerModel : NetworkBehaviour
             var netObj = GetComponent<NetworkObject>();
 
             netObj.Despawn(true);
+
         }
     }
 
