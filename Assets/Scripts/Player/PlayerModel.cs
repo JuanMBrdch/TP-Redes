@@ -13,7 +13,6 @@ public class PlayerModel : NetworkBehaviour
     public int maxHealth;
     public int currentHealth;
     private ClientRpcParams p;
-
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -48,12 +47,14 @@ public class PlayerModel : NetworkBehaviour
         RequestTakeDamageClientRPC(damage, p);
         if (currentHealth <= 0)
         {
+
             var netObj = GetComponent<NetworkObject>();
 
             netObj.Despawn(true);
 
         }
     }
+   
 
     [ClientRpc]
     private void RequestTakeDamageClientRPC(int damage, ClientRpcParams p)
@@ -64,4 +65,7 @@ public class PlayerModel : NetworkBehaviour
     {
         currentHealth -= damage;
     }
+
+
+   
 }

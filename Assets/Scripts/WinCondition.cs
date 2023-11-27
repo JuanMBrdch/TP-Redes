@@ -4,17 +4,18 @@ using UnityEngine;
 using Unity.Netcode;
 public class WinCondition : NetworkBehaviour
 {
-    private bool gameOver = false;
     public GameObject winScreen;
     public GameObject loseScreen;
-
+    public PlayerModel player;
+    private void Awake()
+    {
+        player = GetComponent<PlayerModel>();
+    }
     private void Update()
     {
-        if (!IsOwner) return;
-        if (!gameOver)
-        {
+       
             CheckGameOverCondition();
-        }
+        
     }
 
     private void CheckGameOverCondition()
@@ -31,11 +32,6 @@ public class WinCondition : NetworkBehaviour
                 winner = player;
             }
 
-            if (player.currentHealth <= 0)
-            {
-                DeclareLoserServerRPC();
-                alivePlayers--;
-            }
         }
 
         if (alivePlayers == 1)
@@ -45,29 +41,29 @@ public class WinCondition : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void DeclareLoserServerRPC()
+    public void DeclareLoserServerRPC()
     {
-        DeclareLoserClientRPC();
         Debug.Log("derrotaServer");
+
+        DeclareLoserClientRPC();
 
     }
 
     [ClientRpc]
-    private void DeclareLoserClientRPC()
+    public void DeclareLoserClientRPC()
     {
-        StartCoroutine(ActivateLoseScreen());
-        Debug.Log("derrotaClient");
-
-    }
-
-    private IEnumerator ActivateLoseScreen()
-    {
-        yield return new WaitForSeconds(0.1f); 
-        if (IsOwner)
+            Debug.Log("derrotaCliente");
+        if (IsOwner && IsClient)
         {
+
             loseScreen.SetActive(true);
+
         }
+
+
     }
+
+ 
 
     private IEnumerator DeclareWinner(PlayerModel winner)
     {
@@ -75,7 +71,6 @@ public class WinCondition : NetworkBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
-        gameOver = true;
     }
 
     [ServerRpc]
@@ -92,7 +87,7 @@ public class WinCondition : NetworkBehaviour
 
     private IEnumerator ActivateWinScreen()
     {
-        yield return new WaitForSeconds(0.1f); // Ajusta según sea necesario
+        yield return new WaitForSeconds(0.1f); 
         winScreen.SetActive(true);
     }
 

@@ -52,9 +52,9 @@ public class MovingWall : NetworkBehaviour
             yield return null;
         }
 
-      transform.position = new Vector3(targetX, transform.position.y, transform.position.z); // Asegura que la posición final sea exacta
+      transform.position = new Vector3(targetX, transform.position.y, transform.position.z); 
 
-       yield return new WaitForSeconds(0.1f); // Pausa opcional entre movimientos para mejorar la transición
+       yield return new WaitForSeconds(0.1f);
 
         targetX = transform.position.x - moveDistance;
         startTime = Time.time;
@@ -66,7 +66,7 @@ public class MovingWall : NetworkBehaviour
             yield return null;
         }
 
-        transform.position = new Vector3(targetX, transform.position.y, transform.position.z); // Asegura que la posición final sea exacta
+        transform.position = new Vector3(targetX, transform.position.y, transform.position.z); 
 
         isMoving = false;
     }

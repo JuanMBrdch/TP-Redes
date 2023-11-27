@@ -39,31 +39,31 @@ public class MovingWallY : NetworkBehaviour
     {
         isMoving = true;
 
-        float targetZ = transform.position.z + moveDistance; // Cambiado a Z
+        float targetZ = transform.position.z + moveDistance; 
         float startTime = Time.time;
 
         while (Time.time < startTime + moveSpeed)
         {
             float t = (Time.time - startTime) / moveSpeed;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, targetZ, t)); // Cambiado a Z
+            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, targetZ, t)); 
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, targetZ); // Asegura que la posición final sea exacta
+        transform.position = new Vector3(transform.position.x, transform.position.y, targetZ); 
 
-        yield return new WaitForSeconds(0.1f); // Pausa opcional entre movimientos para mejorar la transición
+        yield return new WaitForSeconds(0.1f); 
 
-        targetZ = transform.position.z - moveDistance; // Cambiado a Z
+        targetZ = transform.position.z - moveDistance; 
         startTime = Time.time;
 
         while (Time.time < startTime + moveSpeed)
         {
             float t = (Time.time - startTime) / moveSpeed;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, targetZ, t)); // Cambiado a Z
+            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, targetZ, t)); 
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, targetZ); // Asegura que la posición final sea exacta
+        transform.position = new Vector3(transform.position.x, transform.position.y, targetZ);
 
         isMoving = false;
     }
