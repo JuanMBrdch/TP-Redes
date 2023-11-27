@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 366637095}
   - component: {fileID: 366637094}
   - component: {fileID: 366637093}
+  - component: {fileID: 366637096}
   m_Layer: 0
   m_Name: WinCondition
   m_TagString: Untagged
@@ -261,6 +262,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &366637096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366637092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f37c2600420b164f8c1ddbf97e51b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 1339105758}
 --- !u!1 &394105001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,6 +1138,7 @@ GameObject:
   - component: {fileID: 1339105757}
   - component: {fileID: 1339105759}
   - component: {fileID: 1339105758}
+  - component: {fileID: 1339105760}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1249,6 +1264,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339105756}
   m_CullTransparentMesh: 1
+--- !u!114 &1339105760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339105756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1596932943
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1546550141
 PrefabInstance:
   m_ObjectHideFlags: 0

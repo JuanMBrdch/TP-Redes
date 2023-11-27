@@ -14,12 +14,13 @@ public class Timer : NetworkBehaviour
     {
         if(IsOwner)
         {
-            
         }
     }
     private void Update()
     {
         _timer += Time.deltaTime;
+        timerText.text = _timer.ToString();
+
         if (IsServer)
         {
             _syncTimer += Time.deltaTime;
