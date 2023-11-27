@@ -18,6 +18,7 @@ public class MovingWallY : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsOwner) return;
         if (other.CompareTag("Bullet"))
         {
             if (!isMoving)
@@ -26,11 +27,16 @@ public class MovingWallY : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void RequestMoveServerRPC()
     {
-        StartCoroutine(MoveWall());
+        RequestMoveClientRPC();
+    }
 
+    [ClientRpc]
+    private void RequestMoveClientRPC()
+    {
+        StartCoroutine(MoveWall());
     }
 
     private IEnumerator MoveWall()
