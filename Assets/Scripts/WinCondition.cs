@@ -31,28 +31,7 @@ public class WinCondition : NetworkBehaviour
         
     }
 
-    public void CheckGameOverCondition()
-    {
-        PlayerModel[] players = FindObjectsOfType<PlayerModel>();
-
-       
-        
-        foreach (var player in players)
-        {
-            if (player.currentHealth < 0)
-            {
-
-            }
-              if(alivePlayers == 1)
-            {
-                unoVivo = true;
-
-            }
-
-        }
-
-     
-    }
+    
     public void ReducePlayerCount()
     {
         alivePlayers--;
@@ -84,18 +63,11 @@ public class WinCondition : NetworkBehaviour
         
             winScreen.SetActive(true);
         
-        // Solo activa la pantalla de derrota en el cliente correspondiente
 
 
 
     }
-    /* private IEnumerator DeclareWinner(PlayerModel winner)
-     {
-         DeclareWinnerServerRPC(winner.OwnerClientId);
 
-         yield return new WaitForSeconds(2.0f);
-
-     }*/
 
     [ServerRpc]
     private void DeclareWinnerServerRPC(ulong winnerClientId)
@@ -110,10 +82,6 @@ public class WinCondition : NetworkBehaviour
         winScreen.SetActive(true);
     }
 
-    /* private IEnumerator ActivateWinScreen()
-     {
-         yield return new WaitForSeconds(0.1f); 
-         winScreen.SetActive(true);
-     }*/
+   
 
 }
