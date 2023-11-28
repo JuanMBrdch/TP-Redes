@@ -39,7 +39,11 @@ public class PlayerController : NetworkBehaviour
         {
             //lookDir(dir);
         }
+        if (WinCondition.Singleton.alivePlayers == 1)
+        {
+            WinCondition.Singleton.DeclareWinner(NetworkManager.Singleton.LocalClientId);
 
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             RequestSpawnBulletServerRpc(playerID);

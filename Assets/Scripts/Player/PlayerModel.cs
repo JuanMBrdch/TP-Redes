@@ -47,8 +47,8 @@ public class PlayerModel : NetworkBehaviour
         RequestTakeDamageClientRPC(damage, p);
         if (currentHealth <= 0)
         {
-
-            var netObj = GetComponent<NetworkObject>();
+            WinCondition.Singleton.ReducePlayerCount();
+           var netObj = GetComponent<NetworkObject>();
 
             netObj.Despawn(true);
 
@@ -64,6 +64,12 @@ public class PlayerModel : NetworkBehaviour
     private void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        if(currentHealth<= 0 && IsOwner)
+        {
+            WinCondition.Singleton.DeclareLoser(NetworkManager.Singleton.LocalClientId);
+
+
+        }
     }
 
 

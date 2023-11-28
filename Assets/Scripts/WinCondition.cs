@@ -6,72 +6,96 @@ public class WinCondition : NetworkBehaviour
 {
     public GameObject winScreen;
     public GameObject loseScreen;
-    public PlayerModel player;
+
+    public float alivePlayers = 4;
+    private bool  unoVivo = false;
+    public static WinCondition Singleton { get; private set; }
+
     private void Awake()
     {
-        player = GetComponent<PlayerModel>();
+        if (Singleton != null && Singleton != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Singleton = this;
+        }
+
+        winScreen.SetActive(false);
+        loseScreen.SetActive(false);
     }
     private void Update()
     {
        
-            CheckGameOverCondition();
         
     }
 
-    private void CheckGameOverCondition()
+    public void CheckGameOverCondition()
     {
         PlayerModel[] players = FindObjectsOfType<PlayerModel>();
 
-        int alivePlayers = 4;
-        PlayerModel winner = null;
-
+       
+        
         foreach (var player in players)
         {
-            if (player.currentHealth > 0)
+            if (player.currentHealth < 0)
             {
-                winner = player;
+
+            }
+              if(alivePlayers == 1)
+            {
+                unoVivo = true;
+
             }
 
         }
 
-        if (alivePlayers == 1)
-        {
-            StartCoroutine(DeclareWinner(winner));
-        }
+     
+    }
+    public void ReducePlayerCount()
+    {
+        alivePlayers--;
+
     }
 
-    [ServerRpc]
-    public void DeclareLoserServerRPC()
+    [ServerRpc(RequireOwnership = false)]
+    public void DeclareLoserServerRPC(ulong id)
     {
         Debug.Log("derrotaServer");
 
-        DeclareLoserClientRPC();
+        //DeclareLoserClientRPC(id);
 
     }
 
-    [ClientRpc]
-    public void DeclareLoserClientRPC()
+    public void DeclareLoser (ulong id)
     {
-            Debug.Log("derrotaCliente");
-        if (IsOwner && IsClient)
-        {
+        Debug.Log("derrotaCliente");
 
+        // Solo activa la pantalla de derrota en el cliente correspondiente
+        
             loseScreen.SetActive(true);
-
-        }
-
+        
 
     }
-
- 
-
-    private IEnumerator DeclareWinner(PlayerModel winner)
+    public void DeclareWinner(ulong id)
     {
-        DeclareWinnerServerRPC(winner.OwnerClientId);
+        Debug.Log("derrotaCliente");
+        
+            winScreen.SetActive(true);
+        
+        // Solo activa la pantalla de derrota en el cliente correspondiente
 
-        yield return new WaitForSeconds(2.0f);
+
 
     }
+    /* private IEnumerator DeclareWinner(PlayerModel winner)
+     {
+         DeclareWinnerServerRPC(winner.OwnerClientId);
+
+         yield return new WaitForSeconds(2.0f);
+
+     }*/
 
     [ServerRpc]
     private void DeclareWinnerServerRPC(ulong winnerClientId)
@@ -82,13 +106,14 @@ public class WinCondition : NetworkBehaviour
     [ClientRpc]
     private void DeclareWinnerClientRPC(ulong winnerClientId)
     {
-        StartCoroutine(ActivateWinScreen());
-    }
-
-    private IEnumerator ActivateWinScreen()
-    {
-        yield return new WaitForSeconds(0.1f); 
+        
         winScreen.SetActive(true);
     }
+
+    /* private IEnumerator ActivateWinScreen()
+     {
+         yield return new WaitForSeconds(0.1f); 
+         winScreen.SetActive(true);
+     }*/
 
 }
