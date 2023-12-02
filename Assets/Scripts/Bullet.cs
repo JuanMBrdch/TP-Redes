@@ -56,7 +56,6 @@ public class Bullet : NetworkBehaviour
             else
             {
                 RequestDestroyServerRPC();
-
             }
 
         }

@@ -31,12 +31,10 @@ public class PlayerModel : NetworkBehaviour
         if (IsOwner)
         {
             TakeDamage(damage);
-
         }
         else
         {
             RequestTakeDamageServerRPC(damage);
-
         }
     }
     [ServerRpc(RequireOwnership = false)]
@@ -48,10 +46,8 @@ public class PlayerModel : NetworkBehaviour
         if (currentHealth <= 0)
         {
             WinCondition.Singleton.ReducePlayerCount();
-           var netObj = GetComponent<NetworkObject>();
-
-            netObj.Despawn(true);
-
+            var netObj = GetComponent<NetworkObject>();
+            netObj.Despawn();
         }
     }
    
@@ -67,8 +63,6 @@ public class PlayerModel : NetworkBehaviour
         if(currentHealth<= 0 && IsOwner)
         {
             WinCondition.Singleton.DeclareLoser(NetworkManager.Singleton.LocalClientId);
-
-
         }
     }
 

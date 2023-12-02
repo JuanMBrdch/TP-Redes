@@ -34,10 +34,12 @@ public class PlayerController : NetworkBehaviour
 
         if (!IsOwner) return;
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        
+        Debug.Log(dir);
         _model.Move(dir);
         if (dir != Vector3.zero)
         {
-            //lookDir(dir);
+            LookDir(dir);
         }
         if (WinCondition.Singleton.alivePlayers == 1)
         {
@@ -61,6 +63,12 @@ public class PlayerController : NetworkBehaviour
        // netObj.Despawn(true);
     }
 
+    private void LookDir(Vector3 dir)
+    {
+        dir.y = 0;
+        transform.forward = dir.normalized;
+    } 
+    
     [ServerRpc (RequireOwnership = false)]
     public void TakeDamageServerRpc(int damageAmount)
     {

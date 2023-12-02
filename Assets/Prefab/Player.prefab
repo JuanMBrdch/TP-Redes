@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4775125851726485473}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,7 +240,7 @@ Animator:
   m_GameObject: {fileID: 8327587625307156379}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 131ae4b8a55c2104c9078ec28574f2de, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -264,7 +264,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd709b36be4aba45821361ea31f3eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1977268977
+    DestinationState: 1141626005
+    TransitionDuration: 0.25
+    TriggerNameHash: -1304917071
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563131572
+    DestinationState: 1141626005
+    TransitionDuration: 0.25
+    TriggerNameHash: -1304917071
+    TransitionIndex: 1
   m_Animator: {fileID: 4778855369746756942}
 --- !u!1001 &5303258032731289900
 PrefabInstance:
