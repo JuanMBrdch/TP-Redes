@@ -8,31 +8,22 @@ public class MovingWall : NetworkBehaviour
     public float moveDistance = 1.0f;
     public float moveSpeed = 1.0f;
 
-    private Vector3 initialPosition;
     private bool isMoving = false;
 
-    private void Start()
-    {
-        initialPosition = transform.position;
-    }
+ 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsOwner) return;
+        if (!IsServer) return;
         if (other.CompareTag("Bullet"))
         {
             if (!isMoving)
             {
-                RequestMoveServerRPC();
+                RequestMoveClientRPC(); 
             }
         }
     }
-    [ServerRpc]
-    private void RequestMoveServerRPC()
-    {
-        RequestMoveClientRPC();
-    }
-
+    
     [ClientRpc]
     private void RequestMoveClientRPC()
     {

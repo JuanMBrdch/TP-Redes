@@ -36,18 +36,12 @@ public class PlayerModel : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RequestTakeDamageServerRPC(int damage)
     {
-        TakeDamage(damage);
         _p.Send.TargetClientIds = new ulong[] { OwnerClientId };
         RequestTakeDamageClientRPC(damage, _p);
-        if (currentHealth <= 0)
-        {
-            WinCondition.Singleton.ReducePlayerCount();
-            var netObj = GetComponent<NetworkObject>();
-            netObj.Despawn();
-        }
-    }
-   
-
+        //var netObj = GetComponent<NetworkObject>();
+        //netObj.Despawn();
+    }   
+    //server rpc meter Despawn y despues ese rpc llamarlo en el TakeDamage
     [ClientRpc]
     private void RequestTakeDamageClientRPC(int damage, ClientRpcParams p)
     {
@@ -59,6 +53,8 @@ public class PlayerModel : NetworkBehaviour
         if(currentHealth<= 0 && IsOwner)
         {
             WinCondition.Singleton.DeclareLoser(NetworkManager.Singleton.LocalClientId);
+            WinCondition.Singleton.ReducePlayerCount();
+            
         }
     }
 }

@@ -60,4 +60,5 @@ public class Bullet : NetworkBehaviour
 
         }
     }
+    //guardar el RquestDestryServerRPC en un bool
 }

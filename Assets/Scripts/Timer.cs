@@ -39,4 +39,6 @@ public class Timer : NetworkBehaviour
     }
 
     public float Timer_ => _timer;
+
+    //usarlo para poner el tiempo que duro cada jugador
 }

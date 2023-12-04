@@ -28,10 +28,13 @@ public class WinCondition : NetworkBehaviour
         alivePlayers.Value --;
     }
 
+
     public void DeclareLoser(ulong id)
     {
         loseScreen.SetActive(true);
     }
+
+    // declarar el win desde el server y no de manera local, con un clientRPC
     public void DeclareWinner(ulong id)
     {
         winScreen.SetActive(true);
