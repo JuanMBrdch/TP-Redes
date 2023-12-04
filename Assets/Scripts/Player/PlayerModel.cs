@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 
 public class PlayerModel : NetworkBehaviour
 {
     private Rigidbody _rb;
     public float speed;
-
     public int maxHealth;
     public int currentHealth;
-    private ClientRpcParams p;
+    
+    private ClientRpcParams _p;
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -41,8 +37,8 @@ public class PlayerModel : NetworkBehaviour
     private void RequestTakeDamageServerRPC(int damage)
     {
         TakeDamage(damage);
-        p.Send.TargetClientIds = new ulong[] { OwnerClientId };
-        RequestTakeDamageClientRPC(damage, p);
+        _p.Send.TargetClientIds = new ulong[] { OwnerClientId };
+        RequestTakeDamageClientRPC(damage, _p);
         if (currentHealth <= 0)
         {
             WinCondition.Singleton.ReducePlayerCount();
@@ -65,7 +61,4 @@ public class PlayerModel : NetworkBehaviour
             WinCondition.Singleton.DeclareLoser(NetworkManager.Singleton.LocalClientId);
         }
     }
-
-
-   
 }

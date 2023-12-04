@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -10,7 +7,6 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField]
     private GameObject bulletPrefab;
-    public NetworkVariable<int> health;
 
     [SerializeField] private Transform shootTransform;
     private Animator anim;
@@ -19,7 +15,6 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             _model = GetComponent<PlayerModel>();
-            health = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         }
         else
         {
@@ -35,7 +30,6 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         
-     //   Debug.Log(dir);
         _model.Move(dir);
         if (dir != Vector3.zero)
         {
@@ -45,17 +39,13 @@ public class PlayerController : NetworkBehaviour
 
         if (WinCondition.Singleton.alivePlayers.Value == 1)
         {
-
             WinCondition.Singleton.DeclareWinner(NetworkManager.Singleton.LocalClientId);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             RequestSpawnBulletServerRpc(playerID);
-            Debug.Log("Dispara");
         }
-
-        
     }
 
     
@@ -74,10 +64,4 @@ public class PlayerController : NetworkBehaviour
         transform.forward = dir.normalized;
     } 
     
-    [ServerRpc (RequireOwnership = false)]
-    public void TakeDamageServerRpc(int damageAmount)
-    {
-        health.Value -= damageAmount; 
-     
-    }
 }
