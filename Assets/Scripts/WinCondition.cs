@@ -8,8 +8,7 @@ public class WinCondition : NetworkBehaviour
     public GameObject loseScreen;
 
     public NetworkVariable<int> alivePlayers;
-    // Nueva variable para almacenar el ID del jugador ganador
-    private ulong winnerPlayerId = ulong.MaxValue;
+   
 
     public static WinCondition Singleton { get; private set; }
 
