@@ -7,8 +7,10 @@ public class WinCondition : NetworkBehaviour
     public GameObject winScreen;
     public GameObject loseScreen;
 
-    public float alivePlayers = 4;
-    private bool  unoVivo = false;
+    public NetworkVariable<int> alivePlayers;
+    // Nueva variable para almacenar el ID del jugador ganador
+    private ulong winnerPlayerId = ulong.MaxValue;
+
     public static WinCondition Singleton { get; private set; }
 
     private void Awake()
@@ -20,68 +22,32 @@ public class WinCondition : NetworkBehaviour
         else
         {
             Singleton = this;
+            alivePlayers = new NetworkVariable<int>(4, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
         }
 
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
     }
-    private void Update()
-    {
-       
-        
-    }
 
-    
+  
+
     public void ReducePlayerCount()
     {
-        alivePlayers--;
+       alivePlayers.Value --;
+        Debug.Log("Players alive: " + alivePlayers);
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DeclareLoserServerRPC(ulong id)
+
+    public void DeclareLoser(ulong id)
     {
-        Debug.Log("derrotaServer");
-
-        //DeclareLoserClientRPC(id);
-
-    }
-
-    public void DeclareLoser (ulong id)
-    {
-        Debug.Log("derrotaCliente");
-
-        // Solo activa la pantalla de derrota en el cliente correspondiente
-        
-            loseScreen.SetActive(true);
-        
-
+        Debug.Log("Player " + id + " lost.");
+        loseScreen.SetActive(true);
     }
     public void DeclareWinner(ulong id)
     {
-        Debug.Log("derrotaCliente");
-        
-            winScreen.SetActive(true);
-        
-
-
-
-    }
-
-
-    [ServerRpc]
-    private void DeclareWinnerServerRPC(ulong winnerClientId)
-    {
-        DeclareWinnerClientRPC(winnerClientId);
-    }
-
-    [ClientRpc]
-    private void DeclareWinnerClientRPC(ulong winnerClientId)
-    {
-        
         winScreen.SetActive(true);
     }
-
    
-
 }

@@ -35,22 +35,27 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         
-        Debug.Log(dir);
+     //   Debug.Log(dir);
         _model.Move(dir);
         if (dir != Vector3.zero)
         {
             LookDir(dir);
         }
-        if (WinCondition.Singleton.alivePlayers == 1)
-        {
-            WinCondition.Singleton.DeclareWinner(NetworkManager.Singleton.LocalClientId);
+        Debug.Log(WinCondition.Singleton.alivePlayers.Value);
 
+        if (WinCondition.Singleton.alivePlayers.Value == 1)
+        {
+
+            WinCondition.Singleton.DeclareWinner(NetworkManager.Singleton.LocalClientId);
         }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             RequestSpawnBulletServerRpc(playerID);
             Debug.Log("Dispara");
         }
+
+        
     }
 
     
